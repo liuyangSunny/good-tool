@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <packaging>pom</packaging>
+    <modules>
+        <module>good-tool-all</module>
+        <module>good-tool-core</module>
+    </modules>
+
+    <groupId>com.github.liuyangSunny.good.tool</groupId>
+    <artifactId>good-tool-parent</artifactId>
+    <!--maven 3.5+可使用占位符继承父类版本-->
+    <version>${revision}</version>
+    <name>good tool</name>
+    <description>依赖hutool整合的Java工具类</description>
+    <url>https://github.com/liuyangSunny/good-tool</url>
+
+    <properties>
+        <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
+        <!-- versions -->
+        <junit.version>4.12</junit.version>
+        <revision>1.0.1-SNAPSHOT</revision>
+        <hutool.version>4.5.4</hutool.version>
+        <!-- java8版本导致javadoc打包编译失败时候，添加-->
+        <javadoc.opts>-Xdoclint:none</javadoc.opts>
+    </properties>
+
+    <issueManagement>
+        <system>Github Issue</system>
+        <url>https://github.com/liuyangSunny/good-tool/issues</url>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git@github.com:liuyangSunny/good-tool.git</connection>
+        <developerConnection>scm:git@github.com:liuyangSunny/good-tool.git</developerConnection>
+        <url>git@github.com:liuyangSunny/good-tool.git</url>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>sunny</name>
+            <email>122755347@qq.com</email>
+        </developer>
+    </developers>
+
+    <distributionManagement>
+        <!-- id与setting.xml中server标签的id一致-->
+        <snapshotRepository>
+            <id>oss</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>oss</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <dependencies>
+        <!-- 全局单元测试 -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.6</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <!-- javadoc -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadoc</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <!-- java8版本导致javadoc打包编译失败时候，关闭doclint,避免注解检查不通过-->
+                                <configuration>
+                                    <doclint>none</doclint>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Source -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>oss</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Gpg Signature -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>oss</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- 自动release插件 -->
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.8</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>oss</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <!-- 开启了自动 Release。也可以关掉 -->
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                    <!-- 使用此插件导致 deploy后 good-tool-parent.pom中的上传scm等标签丢失，先去掉 -->
+                    <!--<plugin>-->
+                        <!--&lt;!&ndash;此插件用于install/deploy时继承父类version&ndash;&gt;-->
+                        <!--<groupId>org.codehaus.mojo</groupId>-->
+                        <!--<artifactId>flatten-maven-plugin</artifactId>-->
+                        <!--<executions>-->
+                            <!--<execution>-->
+                                <!--<id>flatten</id>-->
+                                <!--<phase>process-resources</phase>-->
+                                <!--<goals>-->
+                                    <!--<goal>flatten</goal>-->
+                                <!--</goals>-->
+                                <!--<configuration>-->
+                                    <!--<outputDirectory>target</outputDirectory>-->
+                                    <!--<updatePomFile>true</updatePomFile>-->
+                                    <!--<pomElements>-->
+                                        <!--<parent>expand</parent>-->
+                                        <!--<name>keep</name>-->
+                                        <!--<description>keep</description>-->
+                                        <!--<url>keep</url>-->
+                                        <!--<properties>keep</properties>-->
+                                        <!--<pluginManagement>keep</pluginManagement>-->
+                                        <!--<dependencyManagement>keep</dependencyManagement>-->
+                                        <!--<build>keep</build>-->
+                                    <!--</pomElements>-->
+                                <!--</configuration>-->
+                            <!--</execution>-->
+                            <!--<execution>-->
+                                <!--<id>flatten-clean</id>-->
+                                <!--<phase>clean</phase>-->
+                                <!--<goals>-->
+                                    <!--<goal>clean</goal>-->
+                                <!--</goals>-->
+                            <!--</execution>-->
+                        <!--</executions>-->
+                    <!--</plugin>-->
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
