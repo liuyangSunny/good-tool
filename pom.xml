@@ -8,6 +8,7 @@
     <modules>
         <module>good-tool-all</module>
         <module>good-tool-core</module>
+        <module>good-tool-extra</module>
     </modules>
 
     <groupId>com.github.liuyangSunny.good.tool</groupId>
@@ -23,7 +24,7 @@
         <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
         <!-- versions -->
         <junit.version>4.12</junit.version>
-        <revision>1.0.1-SNAPSHOT</revision>
+        <revision>1.0.2-SNAPSHOT</revision>
         <hutool.version>4.5.4</hutool.version>
         <!-- java8版本导致javadoc打包编译失败时候，添加-->
         <javadoc.opts>-Xdoclint:none</javadoc.opts>

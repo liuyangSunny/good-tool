@@ -13,7 +13,7 @@ public class PhoneUtil {
     public static final char C_STAR = '*';
 
     /**
-     * 模式处理
+     * 模糊处理
      * 默认将手机号的第5位到第8位替换为
      *
      * @param phoneNumber 手机号
