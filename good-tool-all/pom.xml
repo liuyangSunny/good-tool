@@ -10,7 +10,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>good-tool-all</artifactId>
-    <packaging>jar</packaging>
+    <!-- 如果改为jar，打包出来的good-tool-all的revision没有被替换，其他包可以替换成功
+         如果该为pom，其他项目依赖good-tool-all后编译失败，因该包revision没有替换-->
+    <packaging>pom</packaging>
 
     <dependencies>
         <dependency>
@@ -28,6 +30,57 @@
 
     <build>
         <plugins>
+            <plugin>
+                <!-- 指定maven编译的jdk版本,如果不指定,maven3默认用jdk 1.5 maven2默认用jdk1.3 -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <!-- 一般而言，target与source是保持一致的，但是，有时候为了让程序能在其他版本的jdk中运行(对于低版本目标jdk，源代码中不能使用低版本jdk中不支持的语法)，会存在target不同于source的情况 -->
+                    <source>1.8</source> <!-- 源代码使用的JDK版本 -->
+                    <target>1.8</target> <!-- 需要生成的目标class文件的编译版本 -->
+                    <encoding>UTF-8</encoding><!-- 字符集编码 -->
+                    <verbose>true</verbose>
+                    <showWarnings>true</showWarnings>
+                    <fork>true</fork><!-- 要使compilerVersion标签生效，还需要将fork设为true，用于明确表示编译版本配置的可用 -->
+                </configuration>
+            </plugin>
+            <plugin>
+                <!--此插件用于install/deploy时继承父类version-->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.1.0</version>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target</outputDirectory>
+                            <updatePomFile>true</updatePomFile>
+                            <pomElements>
+                                <parent>expand</parent>
+                                <name>keep</name>
+                                <description>keep</description>
+                                <url>keep</url>
+                                <properties>keep</properties>
+                                <pluginManagement>keep</pluginManagement>
+                                <dependencyManagement>keep</dependencyManagement>
+                                <build>keep</build>
+                            </pomElements>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>flatten-clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>

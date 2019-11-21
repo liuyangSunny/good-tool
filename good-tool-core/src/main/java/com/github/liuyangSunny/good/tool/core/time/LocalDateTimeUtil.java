@@ -43,6 +43,16 @@ public class LocalDateTimeUtil {
     }
 
     /**
+     * timestamp 转 LocalDateTime
+     *
+     * @param timestamp long类型的时间戳
+     * @return Instant
+     */
+    public static LocalDateTime toLocalDateTime(long timestamp) {
+        return toLocalDateTime(Instant.ofEpochMilli(timestamp));
+    }
+
+    /**
      * 获取LocalDateTime的毫秒数
      *
      * @param localDateTime LocalDateTime
