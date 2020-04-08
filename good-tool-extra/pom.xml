@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>good-tool-parent</artifactId>
-        <groupId>com.github.liuyangSunny.good.tool</groupId>
+        <groupId>cn.liujunjiang</groupId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.liuyangSunny.good.tool</groupId>
+    <groupId>cn.liujunjiang</groupId>
     <artifactId>good-tool-extra</artifactId>
 
     <properties>
@@ -22,7 +22,14 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+            <scope>provided</scope>
             <optional>true</optional>
         </dependency>
 
@@ -30,7 +37,22 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${servlet-api.version}</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.9.9</version>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.26</version>
+            <scope>provided</scope>
             <optional>true</optional>
         </dependency>
     </dependencies>

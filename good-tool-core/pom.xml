@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>good-tool-parent</artifactId>
-        <groupId>com.github.liuyangSunny.good.tool</groupId>
+        <groupId>cn.liujunjiang</groupId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>

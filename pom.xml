@@ -11,7 +11,7 @@
         <module>good-tool-extra</module>
     </modules>
 
-    <groupId>com.github.liuyangSunny.good.tool</groupId>
+    <groupId>cn.liujunjiang</groupId>
     <artifactId>good-tool-parent</artifactId>
     <!--maven 3.5+可使用占位符继承父类版本-->
     <version>${revision}</version>
@@ -20,7 +20,7 @@
     <url>https://github.com/liuyangSunny/good-tool</url>
 
     <properties>
-        <revision>1.0.5-SNAPSHOT</revision>
+        <revision>1.0.5-RELEASE</revision>
         <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
         <!-- java8版本导致javadoc打包编译失败时候，添加-->
@@ -51,8 +51,8 @@
 
     <developers>
         <developer>
-            <name>sunny</name>
-            <email>122755347@qq.com</email>
+            <name>liuyang</name>
+            <email>liuyang_deve@sina.com</email>
         </developer>
     </developers>
 
@@ -89,6 +89,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
